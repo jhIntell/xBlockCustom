@@ -1,0 +1,75 @@
+<div class="myxblock_block">
+    <h2>CMS Content Block</h2>
+
+    <div>
+        <label>Select Course:</label><br />
+        <select id="courseFilter" style="width: 400px;">
+            <option value="">All CourseTags</option>
+            {% for tag in courseTags %}
+                <option value="{{ tag.slug }}" {% if selectedCourseTag == tag.slug %} selected="selected" {% endif %}>{{tag.title}}</option>
+            {% endfor %}        
+        </select>
+    </div>
+
+    <br /><br />
+
+    <div>
+        <label>Select Entry:</label><br />
+        <select id="entry"  style="width:400px;">
+            <option value="">Please select...</option>
+            <optgroup label="clause" id="clausesOptions">      
+            </optgroup>
+            <optgroup label="course" id="coursesOptions">
+            </optgroup>
+            <optgroup label="lesson" id="lessonsOptions">
+            </optgroup>
+            <optgroup label="page" id="pagesOptions">
+            </optgroup>
+        </select>
+    </div>
+    <script>
+        var entrySlug = '{{ self.entrySlug }}';
+        var entryType = '{{ self.entryType }}';
+        var clauses = {{ clauses | safe }};
+        var courses = {{ courses | safe }};
+        var lessons = {{ lessons | safe }};
+        var pages = {{ pages | safe }};
+    </script>
+
+    <div id="generalView">
+        {% for section in sections %}
+            <div style="padding: 0.8em; margin: 0.5em; background: lightgray; border-radius: 7px;">
+                <p>{{ section | safe }}</p>
+            </div>
+        {% endfor %}
+
+        {% for block in contentBlocks %}
+            <div style="padding: 0.8em; margin: 0.5em; background: lightgray; border-radius: 7px;">
+                <h5>{{ block.blockTitle }}</h5>
+                <div>{{ block.blockContent | safe }}</div>
+            </div>
+        {% endfor %}
+    
+        {% for asset in assets %}
+            {% for file in asset.assetfile %}
+                <div style="padding: 0.8em; margin: 0.5em; background: lightgray; border-radius: 7px;">
+                    <img src="{{ cmsHost }}{{ file.url }}" class="img-fluid"/>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    
+        {% for faq in faqs %}
+            <div style="padding: 0.8em; margin: 0.5em; background: lightgray; border-radius: 7px;">
+                <h5>{{ faq.question }}</h5>
+                <div>{{ faq.answer | safe }}</div>
+            </div>
+        {% endfor %}
+    
+        {% for tip in tips %}
+            <div style="padding: 0.8em; margin: 0.5em; background: lightgray; border-radius: 7px;"> 
+                <h5>{{ tip.tipTitle }}</h5>
+                <div>{{ tip.tipContent | safe }}</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
